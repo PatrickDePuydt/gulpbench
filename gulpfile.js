@@ -9,9 +9,9 @@ var gulp = require('gulp'),
 	reload = browserSync.reload,
 
 	autoprefixer = require('gulp-autoprefixer'),
-	
+
 	uglify = require('gulp-uglify'),
-	
+
 	plumber = require('gulp-plumber'),
 
 	sass = require('gulp-sass'),
@@ -19,7 +19,7 @@ var gulp = require('gulp'),
 	maps = require('gulp-sourcemaps'),
 
 	del = require('del'),
-	
+
 	rename = require('gulp-rename');
 
 // 2 --------------- > /////
@@ -29,19 +29,19 @@ var gulp = require('gulp'),
 gulp.task('html', function(){
 
 	gulp.src('app/**/*.html')
-	
+
 	.pipe(reload({stream: true}));
 
 });
 
 gulp.task('scripts', function() {
 
-	gulp.src(['app/js/**/*.js', '!app/js/**/*/.min.js'])
-	
+
+	gulp.src(['app/src/js/*.js'])
 	.pipe(plumber())
-	
+
 	.pipe(rename({suffix:'.min'}))
-	
+
 	.pipe(uglify())
 
 	.pipe(gulp.dest('app/js/'))
@@ -53,7 +53,7 @@ gulp.task('scripts', function() {
 
 gulp.task('sass', function(){
 
-	gulp.src('app/scss/styles.scss')
+	gulp.src('app/src/scss/*.scss')
 
 	.pipe(plumber())
 
@@ -64,11 +64,11 @@ gulp.task('sass', function(){
 	.pipe(autoprefixer())
 
 	.pipe(maps.write('./'))
-	
+
 	.pipe(gulp.dest('app/css/'))
-	
+
 	.pipe(reload({stream: true}));
-	
+
 });
 
 // 3 --------------- > /////
@@ -78,23 +78,23 @@ gulp.task('sass', function(){
 gulp.task('browser-sync', function() {
 
 	browserSync({
-	
+
 		server: {
-	
+
 			baseDir: "./app/"
-	
+
 		}
-	
+
 	});
 
 });
 
 gulp.task('watch', function(){
 
-	gulp.watch('app/js/**/*.js', ['scripts']);
-	
-	gulp.watch('app/scss/**/*.scss', ['sass']);
-	
+	gulp.watch('app/src/js/*.js', ['scripts']);
+
+	gulp.watch('app/src/scss/*.scss', ['sass']);
+
 	gulp.watch('app/**/*.html', ['html']);
 
 });
@@ -130,8 +130,8 @@ gulp.task('build:remove', ['build:copy'], function(callBack){
 
 		'build/scss/',
 
-		'build/js/!(*.min.js)'
-		
+		'build/js/'
+
 		 ], callBack);
 
 });

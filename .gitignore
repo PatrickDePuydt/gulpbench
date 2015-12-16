@@ -1,13 +1,15 @@
 # Generated Files #
 #################
-	.DS_Store
-	.DS_Store?
-	._*
-	.Trashes
+.DS_Store
+.DS_Store?
+._*
+.Trashes
 
 # Build Systems #
 #################
-	node_modules/
-	.sass-cache
-	*.css.map
-	bower_components
+node_modules/
+.sass-cache
+*.css.map
+*.min.js
+bower_components
+

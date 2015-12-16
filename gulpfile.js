@@ -2,9 +2,11 @@
 // Variables
 // /////////////////////////////
 
-var browserSync     = require('browser-sync').create();
-
 var gulp = require('gulp'),
+
+	browserSync = require('browser-sync'),
+
+	reload = browserSync.reload,
 
 	autoprefixer = require('gulp-autoprefixer'),
 	
@@ -13,6 +15,8 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	
 	plumber = require('gulp-plumber'),
+
+	sass = require('gulp-sass'),
 	
 	rename = require('gulp-rename');
 
@@ -24,7 +28,7 @@ gulp.task('html', function(){
 
 	gulp.src('app/**/*.html')
 	
-	.pipe(browserSync.stream());
+	.pipe(reload({stream: true}));
 
 });
 
@@ -38,7 +42,9 @@ gulp.task('scripts', function() {
 	
 	.pipe(uglify())
 	
-	.pipe(gulp.dest('app.js'));
+	.pipe(gulp.dest('app.js'))
+
+	.pipe(reload({stream: true}));
 
 });
 
@@ -65,38 +71,48 @@ gulp.task('compass', function(){
 	
 	.pipe(gulp.dest('app/css/'))
 	
-	.pipe(browserSync.stream());
+	.pipe(reload({stream: true}));
 
+});
+
+gulp.task('sass', function(){
+
+	gulp.src('app/scss/styles.scss')
+
+	// .pipe(plumber())
+
+	.pipe(gulp.dest('app/css/'))
+	
+	// .pipe(reload({stream: true}));
+	
 });
 
 // 3 --------------- > /////
 // Server and Watch
 // /////////////////////////////
 
-gulp.task('serve', function() {
+gulp.task('browser-sync', function() {
 
-  browserSync.init({
-
-      server: 'app/'
-
-  });
-
-	gulp.watch('app/scss/**/*.scss', ['compass']);
-
-	gulp.watch('app/html/**/*.html', ['html']);
-
-	gulp.watch('app/**/*.html').on('change', browserSync.reload());
+	browserSync({
+	
+		server: {
+	
+			baseDir: "./app/"
+	
+		}
+	
+	});
 
 });
 
-// gulp.task('watch', function(){
+gulp.task('watch', function(){
 
-// 	gulp.watch('app/js/**/*.js', ['scripts']);
+	gulp.watch('app/js/**/*.js', ['scripts']);
 	
-// 	gulp.watch('app/scss/**/*.scss', ['compass']);
+	gulp.watch('app/scss/**/*.scss', ['compass']);
 	
-// 	gulp.watch('app/html/**/*.html', ['html']);
+	gulp.watch('app/**/*.html', ['html']);
 
-// });
+});
 
-gulp.task('default', ['scripts', 'html', 'compass', 'serve']);
+gulp.task('default', [ 'scripts', 'compass', 'html', 'browser-sync', 'watch']);

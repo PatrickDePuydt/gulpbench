@@ -17,6 +17,8 @@ var gulp = require('gulp'),
 	plumber = require('gulp-plumber'),
 
 	sass = require('gulp-sass'),
+
+	maps = require('gulp-sourcemaps'),
 	
 	rename = require('gulp-rename');
 
@@ -79,11 +81,17 @@ gulp.task('sass', function(){
 
 	gulp.src('app/scss/styles.scss')
 
-	// .pipe(plumber())
+	.pipe(maps.init())
+
+	.pipe(sass())
+
+	.pipe(maps.write('./'))
+	
+	.pipe(plumber())
 
 	.pipe(gulp.dest('app/css/'))
 	
-	// .pipe(reload({stream: true}));
+	.pipe(reload({stream: true}));
 	
 });
 
@@ -109,10 +117,10 @@ gulp.task('watch', function(){
 
 	gulp.watch('app/js/**/*.js', ['scripts']);
 	
-	gulp.watch('app/scss/**/*.scss', ['compass']);
+	gulp.watch('app/scss/**/*.scss', ['sass']);
 	
 	gulp.watch('app/**/*.html', ['html']);
 
 });
 
-gulp.task('default', [ 'scripts', 'compass', 'html', 'browser-sync', 'watch']);
+gulp.task('default', [ 'scripts', 'sass', 'html', 'browser-sync', 'watch']);

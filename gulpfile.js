@@ -10,8 +10,6 @@ var gulp = require('gulp'),
 
 	autoprefixer = require('gulp-autoprefixer'),
 	
-	compass = require('gulp-compass'),
-	
 	uglify = require('gulp-uglify'),
 	
 	plumber = require('gulp-plumber'),
@@ -19,6 +17,8 @@ var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 
 	maps = require('gulp-sourcemaps'),
+
+	del = require('del'),
 	
 	rename = require('gulp-rename');
 
@@ -43,52 +43,28 @@ gulp.task('scripts', function() {
 	.pipe(rename({suffix:'.min'}))
 	
 	.pipe(uglify())
-	
-	.pipe(gulp.dest('app.js'))
+
+	.pipe(gulp.dest('app/js/'))
 
 	.pipe(reload({stream: true}));
 
 });
 
-gulp.task('compass', function(){
-	
-	gulp.src('app/scss/styles.scss')
-	
-	.pipe(plumber())
-	
-	.pipe(compass({
-	
-		config_file: 'config.rb',
-	
-		sourcemap: true,
-	
-		debug: true,
-	
-		css: 'app/css',
-	
-		sass: 'app/scss'
-	}))
-	
-	.pipe(autoprefixer())
-	
-	.pipe(gulp.dest('app/css/'))
-	
-	.pipe(reload({stream: true}));
-
-});
 
 gulp.task('sass', function(){
 
 	gulp.src('app/scss/styles.scss')
 
+	.pipe(plumber())
+
 	.pipe(maps.init())
 
 	.pipe(sass())
 
+	.pipe(autoprefixer())
+
 	.pipe(maps.write('./'))
 	
-	.pipe(plumber())
-
 	.pipe(gulp.dest('app/css/'))
 	
 	.pipe(reload({stream: true}));
@@ -122,5 +98,49 @@ gulp.task('watch', function(){
 	gulp.watch('app/**/*.html', ['html']);
 
 });
+
+// 4 --------------- > /////
+// Build Tasks
+// /////////////////////////////
+
+// Clean out all files and folders from build folder
+gulp.task('build:cleanout', function(callBack){
+
+	del([
+
+			'build/**'
+
+		], callBack);
+});
+
+// Create build directory for all files.
+gulp.task('build:copy', ['build:cleanout'], function(){
+
+	return gulp.src('app/**/*/')
+
+	.pipe(gulp.dest('build'));
+
+});
+
+// Remove unwanted files and folders from Build
+
+gulp.task('build:remove', ['build:copy'], function(callBack){
+
+	del([
+
+		'build/scss/',
+
+		'build/js/!(*.min.js)'
+		
+		 ], callBack);
+
+});
+
+
+// 9999 --------------- > /////
+// Gulp Master Tasks
+// /////////////////////////////
+
+gulp.task('build', ['build:copy', 'build:remove']);
 
 gulp.task('default', [ 'scripts', 'sass', 'html', 'browser-sync', 'watch']);

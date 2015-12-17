@@ -46,7 +46,7 @@ gulp.task('scripts', function() {
 
 	.pipe(gulp.dest('app/js'))
 
-	//.pipe(reload({stream: true}));
+	.pipe(reload({stream: true}));
 
 });
 

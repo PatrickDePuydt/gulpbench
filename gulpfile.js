@@ -36,7 +36,7 @@ gulp.task('html', function(){
 
 gulp.task('scripts', function() {
 
-	gulp.src(['app/js/**/*.js', '!app/js/**/*/.min.js'])
+	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
 	
 	.pipe(plumber())
 	
@@ -44,9 +44,9 @@ gulp.task('scripts', function() {
 	
 	.pipe(uglify())
 
-	.pipe(gulp.dest('app/js/'))
+	.pipe(gulp.dest('app/js'))
 
-	.pipe(reload({stream: true}));
+	//.pipe(reload({stream: true}));
 
 });
 
@@ -103,44 +103,30 @@ gulp.task('watch', function(){
 // Build Tasks
 // /////////////////////////////
 
-// Clean out all files and folders from build folder
-gulp.task('build:cleanout', function(callBack){
-
+// clean out all files and folders from build folder
+gulp.task('build:cleanfolder', function (cb) {
 	del([
-
-			'build/**'
-
-		], callBack);
+		'build/**'
+	], cb);
 });
 
-// Create build directory for all files.
-gulp.task('build:copy', ['build:cleanout'], function(){
-
-	return gulp.src('app/**/*/')
-
-	.pipe(gulp.dest('build'));
-
+// task to create build directory of all files
+gulp.task('build:copy', ['build:cleanfolder'], function(){
+    return gulp.src('app/**/*/')
+    .pipe(gulp.dest('build/'));
 });
 
-// Remove unwanted files and folders from Build
-
-gulp.task('build:remove', ['build:copy'], function(callBack){
-
-	del([
-
-		'build/scss/',
-
-		'build/js/!(*.min.js)'
-		
-		 ], callBack);
-
+// task to removed unwanted build files
+// list all files and directories here that you don't want included
+gulp.task('build:remove', ['build:copy'], function (cb) {
+	del(config.buildFilesFoldersRemove, cb);
 });
+
+gulp.task('build', ['build:copy', 'build:remove']);
 
 
 // 9999 --------------- > /////
 // Gulp Master Tasks
 // /////////////////////////////
-
-gulp.task('build', ['build:copy', 'build:remove']);
 
 gulp.task('default', [ 'scripts', 'sass', 'html', 'browser-sync', 'watch']);

@@ -11,6 +11,8 @@ var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	
 	uglify = require('gulp-uglify'),
+
+	concat = require('gulp-concat'),
 	
 	plumber = require('gulp-plumber'),
 
@@ -19,6 +21,8 @@ var gulp = require('gulp'),
 	maps = require('gulp-sourcemaps'),
 
 	del = require('del'),
+
+	notify = require('gulp-notify'),
 	
 	rename = require('gulp-rename');
 
@@ -35,17 +39,21 @@ gulp.task('html', function(){
 });
 
 gulp.task('scripts', function() {
+	gulp.src(['app/js/**/*.js'])
+	.pipe(maps.init())
+	.pipe(concat('scripts.js'))
+	.pipe(maps.write('./'))
 
-	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
-	
-	.pipe(plumber())
-	
-	.pipe(rename({suffix:'.min'}))
-	
-	.pipe(uglify())
+	//.pipe(plumber())
 
-	.pipe(gulp.dest('app/js'))
+	//.pipe(rename({suffix:'.min'}))
 
+	//.pipe(uglify())
+
+	// .on('error', notify.onError({
+	// 	message: 'Error: <%= error.message %>'
+	// }))
+	.pipe(gulp.dest('app/'))
 	.pipe(reload({stream: true}));
 
 });
@@ -60,6 +68,10 @@ gulp.task('sass', function(){
 	.pipe(maps.init())
 
 	.pipe(sass())
+
+	.on('error', notify.onError({
+		message: 'Error: <%= error.message %>'
+	}))
 
 	.pipe(autoprefixer())
 

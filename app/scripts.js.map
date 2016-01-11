@@ -1,0 +1,1 @@
+{"version":3,"sources":["custom.js","jquery.js","main.js"],"names":[],"mappings":"AAAA;ACAA;ACAA;AACA","file":"scripts.js","sourcesContent":["console.log('Custom JS');","console.log('jquery');","console.log('Main');\n"],"sourceRoot":"/source/"}

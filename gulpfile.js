@@ -27,12 +27,7 @@ gulp.task('html', function(){
 
 gulp.task('scripts', function() {
 	gulp.src(['app/js/**/*.js'])
-
 	.pipe(maps.init())
-
-	.on('error', notify.onError({
-	 	message: 'Error: <%= error.message %>'
-	}))
 	.pipe(concat('scripts.js'))
 	.pipe(maps.write('./'))
 	.pipe(gulp.dest('app/'))
@@ -52,8 +47,6 @@ gulp.task('sass', function(){
 	.pipe(maps.write('./'))
 	.pipe(gulp.dest('app/css/'))
 	.pipe(reload({stream: true}));
-	.pipe(gulp.dest('app/css/'))
-	.pipe(reload({stream: true}));
 });
 
 // 3 --------------- > /////
@@ -65,15 +58,11 @@ gulp.task('browser-sync', function() {
 		server: {
 			baseDir: "./app/"
 		}
-		server: {
-			baseDir: "./app/"
-		}
 	});
 });
 
 gulp.task('watch', function(){
 	gulp.watch('app/js/**/*.js', ['scripts']);
-	gulp.watch('app/scss/**/*.scss', ['sass']);
 	gulp.watch('app/scss/**/*.scss', ['sass']);
 	gulp.watch('app/**/*.html', ['html']);
 });

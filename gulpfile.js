@@ -6,14 +6,12 @@ var gulp = require('gulp'),
 	browserSync = require('browser-sync'),
 	reload = browserSync.reload,
 	autoprefixer = require('gulp-autoprefixer'),
-	uglify = require('gulp-uglify'),
 	concat = require('gulp-concat'),
 	plumber = require('gulp-plumber'),
 	sass = require('gulp-sass'),
 	maps = require('gulp-sourcemaps'),
-	del = require('del'),
 	notify = require('gulp-notify'),
-	rename = require('gulp-rename');
+	babel = require('gulp-babel');
 
 // 2 --------------- > /////
 // Tasks
@@ -27,12 +25,12 @@ gulp.task('html', function(){
 
 gulp.task('scripts', function() {
 	gulp.src(['app/js/**/*.js'])
+	.pipe(babel({presets: ['es2015']}))
 	.pipe(maps.init())
 	.pipe(concat('scripts.js'))
 	.pipe(maps.write('./'))
 	.pipe(gulp.dest('app/'))
 	.pipe(reload({stream: true}));
-
 });
 
 gulp.task('sass', function(){

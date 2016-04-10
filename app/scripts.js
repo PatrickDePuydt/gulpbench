@@ -1,6 +1,2 @@
-console.log('Custom JS');
-console.log('Hi');
-
-console.log('Main');
-
+"use strict";
 //# sourceMappingURL=scripts.js.map

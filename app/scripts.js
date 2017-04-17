@@ -1,7 +1,6 @@
 'use strict';
 
-var _utilities = require('./utilities');
-
+// import {utilities} from './utilities';
 console.log('Main');
-console.log(_utilities.utilities);
+// console.log(utilities);
 //# sourceMappingURL=scripts.js.map

@@ -1,1 +1,1 @@
-{"version":3,"sources":["main.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA","file":"scripts.js","sourcesContent":["'use strict';\n\nvar _utilities = require('./utilities');\n\nconsole.log('Main');\nconsole.log(_utilities.utilities);"]}
+{"version":3,"sources":["main.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"scripts.js","sourcesContent":["'use strict';\n\n// import {utilities} from './utilities';\nconsole.log('Main');\n// console.log(utilities);"]}

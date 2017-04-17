@@ -24,7 +24,7 @@ gulp.task('html', function(){
 });
 
 gulp.task('scripts', function() {
-	gulp.src(['app/js/**/*.js'])
+	gulp.src(['app/js/main.js'])
 	.pipe(babel({presets: ['es2015']}))
 	.pipe(maps.init())
 	.pipe(concat('scripts.js'))

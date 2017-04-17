@@ -1,1 +1,1 @@
-{"version":3,"sources":["main.js"],"names":[],"mappings":"AAAA","file":"scripts.js","sourcesContent":["\"use strict\";"]}
+{"version":3,"sources":["main.js"],"names":[],"mappings":"AAAA;AACA;AACA","file":"scripts.js","sourcesContent":["'use strict';\n\nconsole.log('Main');"]}

@@ -1,4 +1,4 @@
 'use strict';
 
 console.log('Main');
-//# sourceMappingURL=scripts.js.map
+//# sourceMappingURL=main.js.map
